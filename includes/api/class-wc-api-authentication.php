@@ -247,6 +247,10 @@ class WC_API_Authentication {
 		$query_parameters = array();
 		foreach ( $params as $param_key => $param_value ) {
 			if ( is_array( $param_value ) ) {
+				if ( ! ksort( $param_value ) ) {
+					throw new Exception( __( 'Invalid Signature - failed to sort array parameters', 'woocommerce' ), 401 );
+				}
+
 				foreach ( $param_value as $param_key_inner => $param_value_inner ) {
 					$query_parameters[] = $param_key . '%255B' . $param_key_inner . '%255D%3D' . $param_value_inner;
 				}
